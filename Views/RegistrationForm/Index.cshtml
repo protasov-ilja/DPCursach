@@ -16,13 +16,13 @@
             <form method="post" role="form" class="form-horizontal" action="~/RegistrationForm/Register">
                 @Html.AntiForgeryToken()
 
-                <h4>Please input you data</h4>
+                <h4>Please input you data to register</h4>
                 <hr />
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Login" class="control-label"></label>
-                    <input asp-for="Login" class="form-control" />
+                    <input asp-for="Login" class="form-control" placeholder="login"/>
                     <span asp-validation-for="Login" class="text-danger"></span>
                 </div>
 
@@ -30,103 +30,40 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
+                    <input asp-for="Password" class="form-control" placeholder="password"/>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ConfirmPassword" class="control-label"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="confirm password" />
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="FristName" class="control-label"></label>
-                    <input asp-for="FristName" class="form-control" />
+                    <input asp-for="FristName" class="form-control" placeholder="name"/>
                     <span asp-validation-for="FristName" class="text-danger"></span>
                 </div>
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="LastName" class="control-label"></label>
-                    <input asp-for="LastName" class="form-control" />
+                    <input asp-for="LastName" class="form-control" placeholder="last name"/>
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="IsAdmin" class="control-label"></label>
-                    <input asp-for="IsAdmin" class="form-control" />
+                <div class="form-group custom-control custom-checkbox mb-3">
+                    <input asp-for="IsAdmin" type="checkbox" class="custom-control-input" id="customCheck1">
+                    <label asp-for="IsAdmin" class="custom-control-label" for="customCheck1">Is Admin</label>
                     <span asp-validation-for="IsAdmin" class="text-danger"></span>
                 </div>
 
-                @*@Html.ValidationSummary(true)
-
-                    <div class="form-group">
-                        @Html.LabelFor(Model => Model.Login, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(Model => Model.Login)
-                            @Html.ValidationMessageFor(Model => Model.Login)
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(Model => Model.Password, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(Model => Model.Password)
-                            @Html.ValidationMessageFor(Model => Model.Password)
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(Model => Model.ConfirmPassword, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(Model => Model.ConfirmPassword)
-                            @Html.ValidationMessageFor(Model => Model.ConfirmPassword)
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(Model => Model.FristName, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(Model => Model.FristName)
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(Model => Model.LastName, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(Model => Model.LastName)
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(Model => Model.IsAdmin, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(Model => Model.IsAdmin)
-                        </div>
-                    </div>*@
-
-                @*<div class="form-group">
-                        <label asp-for="LoginModel.Username" class = "col-md-2 control-label"></label>
-                        <div class="col-md-10">
-                            <input asp-for="LoginModel.Username" class="form-control" />
-                            <span class="alert-danger" asp-validation-for="LoginModel.Username"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="LoginModel.Password" class="col-md-2 control-label"></label>
-                        <div class="col-md-10">
-                            <input asp-for="LoginModel.Password" class="form-control" />
-                            <span class="alert-danger" asp-validation-for="LoginModel.Password"></span>
-                        </div>
-                    </div>*@
-
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button asp-page-handler="Register" class="btn btn-default">register</button>
-                    </div>
+                    <input type="submit" value="Register" class="btn btn-primary" />
                 </div>
             </form>
         </section>

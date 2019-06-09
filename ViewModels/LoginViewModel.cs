@@ -11,6 +11,6 @@ namespace Frontend.ViewModels
 		[Required(ErrorMessage = "Password is requared")]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
-		public string Passwrod { get; set; }
+		public string Password { get; set; }
 	}
 }

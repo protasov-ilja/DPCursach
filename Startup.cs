@@ -32,6 +32,18 @@ namespace Frontend
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+			services.AddDistributedMemoryCache();
+
+			services.AddSession(options =>
+			{
+				// Set a short timeout for easy testing.
+				options.IdleTimeout = TimeSpan.FromSeconds(1000);
+				options.Cookie.HttpOnly = true;
+				// Make the session cookie essential
+				options.Cookie.IsEssential = true;
+			});
+
+
 			services.AddScoped<IConstants>(constants => new Constants(Configuration));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -53,8 +65,9 @@ namespace Frontend
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+			app.UseSession();
 
-            app.UseMvc(routes =>
+			app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",

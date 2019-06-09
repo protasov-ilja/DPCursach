@@ -1,9 +1,12 @@
-﻿using System.Linq;
-using System.Net.Http;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using Frontend.Config;
 using Frontend.Models;
+using Frontend.Models.Response;
 using Frontend.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Frontend.Controllers
 {
@@ -14,33 +17,44 @@ namespace Frontend.Controllers
 
 		public LoginFormController(IConstants constants)
 		{
-
+			_constants = constants;
 		}
 
+		[HttpGet]
 		public IActionResult Index()
         {
+			var name = HttpContext.Session.GetString("name");
 			var viewModel = new LoginViewModel();
+			viewModel.Login = name;
 
-            return View(viewModel);
+			return View(viewModel);
         }
 
 		[HttpPost]
-		public async IActionResult Login(LoginViewModel model) 
+		public async Task<IActionResult> Login(LoginViewModel model) 
 		{
-			HttpResponseMessage response = null;
-			HttpContent content = null;
 			HttpClient client = new HttpClient();
-
+	
 			var userData = new UserDataModel
 			{
 				Login = model.Login,
-				Password = model.Passwrod,
-				UserKind = ""
+				Password = model.Password,
 			};
+		
+			HttpResponseMessage response = await client.PostAsJsonAsync($"{_constants.BackendBaseUrl}/api/account/authorize", userData);
+			string json = await response.Content.ReadAsStringAsync();
 
-			await client.PostAsJsonAsync("https://localhost:")
+			var dataResponse = JsonConvert.DeserializeObject<AuthorizationResponse>(json);
 
-			return View(model);
+			if (dataResponse.AccessToken != null)
+			{
+				HttpContext.Session.SetString(_constants.SessionTokenKey, dataResponse.AccessToken);
+				HttpContext.Session.SetString(_constants.SessionUserKey, dataResponse.UserName);
+
+				return RedirectToRoute("Home/Index", dataResponse);
+			}
+			
+			return RedirectToAction("Index");
 		}
     }
 }

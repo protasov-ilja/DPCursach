@@ -3,5 +3,7 @@
 	public interface IConstants
 	{
 		string  BackendBaseUrl { get; }
+		string SessionTokenKey { get; }
+		string SessionUserKey { get; }
 	}
 }

@@ -1,24 +1,37 @@
-﻿@model UserDataModel  
+﻿@model List<ItemDataModel>
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        @*<ul>
-        @foreach (var item in Model.Indexes)
-        {
-            <li>
-                <h2>@item</h2>
-            </li>
-        }
-        </ul>*@
-        <h1>@Model.Login</h1>
-    </div> 
-</div>
+<div class="container">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <!-- Page Heading -->
+    <h1 class="my-4">
+        Catalog
+        <small>Mobile phones</small>
+    </h1>
+
+    <!-- Project One -->
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <h2>@item.Id</h2>
+            <div class="col-md-7">
+                <a href="#">
+                    <img class="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="">
+                </a>
+            </div>
+            <div class="col-md-5">
+                <h3>@item.Name</h3>
+                <h2>@item.Price</h2>
+                <p>@item.Description</p>
+                <h4>@item.IdProducer</h4>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Add in Bucket</button>
+            </div>
+        </div>
+        <hr>
+    }
+
+
 </div>
