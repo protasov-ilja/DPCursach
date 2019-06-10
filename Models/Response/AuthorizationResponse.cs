@@ -1,10 +1,10 @@
 ﻿namespace Frontend.Models.Response
 {
-	public class AuthorizationResponse
+	public class Response<T>
 	{
-		public string AccessToken { get; set; }
+		public T Data { get; set; }
 		public string UserName { get; set; }
-		public int ErrorCode { get; set; }
+		public int Code { get; set; }
 		public string ErrorDescription { get; set; }
 	}
 }

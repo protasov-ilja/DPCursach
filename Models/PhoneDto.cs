@@ -1,6 +1,6 @@
 ﻿namespace Frontend.Models
 {
-	public sealed class ItemDataModel
+	public sealed class PhoneDto
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

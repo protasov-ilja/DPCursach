@@ -3,34 +3,38 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Frontend.Models;
 using Frontend.Config;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Frontend.Clients;
 
 namespace Frontend.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController : BaseController
 	{
 		private IConstants _constants;
+		private BackendClient _client;
 
-		public HomeController(IConstants constants)
+		public HomeController(IConstants constants, BackendClient client)
+			: base(constants)
 		{
+			_client = client;
 			_constants = constants;
 		}
 
 		public async Task<IActionResult> Index()
 		{
-			HttpContext.Session.SetString("name", "The Doctor");
-			//HttpClient client = new HttpClient();
+			var response = await _client.GetAsync<List<PhoneDto>>($"/api/purchase/allPhones");
+			List<PhoneDto> dataResponse = null;
+			if (!response.IsSuccessStatusCode)
+			{
+				dataResponse = new List<PhoneDto>();
 
-			//HttpResponseMessage response = await client.GetAsync($"{_constants.BackendBaseUrl}/api/purchase/allPhones");
-			//string json = await response.Content.ReadAsStringAsync();
+				return LayoutView(dataResponse);
+			}
 
-			//var dataResponse = JsonConvert.DeserializeObject<List<ItemDataModel>>(json);
-			var dataResponse = new List<ItemDataModel>();
+			dataResponse = response.Result;
 
-			return View(dataResponse);
+			return LayoutView(dataResponse);
 		}
 
 		public IActionResult Privacy()

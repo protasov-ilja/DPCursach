@@ -1,13 +1,11 @@
-﻿using Frontend.Enums;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Frontend.Models
 {
-	public sealed class UserDataModel
+	public sealed class UserDto
 	{
 		[Required]
-		public long Id { get; set; }
+		public int Id { get; set; }
 		[Required]
 		public string Login { get; set; }
 		[Required]

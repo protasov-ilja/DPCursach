@@ -1,0 +1,63 @@
+﻿@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "EditProfile";
+}
+
+@section scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+<h1>EditProfile</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <section>
+            <form method="post" role="form" class="form-horizontal" action="~/RegistrationForm/Register">
+                @Html.AntiForgeryToken()
+
+                <hr />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Login" class="control-label"></label>
+                    <input asp-for="Login" class="form-control" placeholder="login" />
+                    <span asp-validation-for="Login" class="text-danger"></span>
+                </div>
+
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" placeholder="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="control-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="confirm password" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FristName" class="control-label"></label>
+                    <input asp-for="FristName" class="form-control" placeholder="name" />
+                    <span asp-validation-for="FristName" class="text-danger"></span>
+                </div>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" placeholder="last name" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Register" class="btn btn-primary" />
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

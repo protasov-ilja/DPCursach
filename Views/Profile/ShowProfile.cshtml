@@ -1,0 +1,21 @@
+﻿@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "ShowProfile";
+}
+
+<h1>Profile</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <section>
+            <label asp-for="Login" class="control-label"></label>
+            <label asp-for="Password" class="control-label"></label>
+            <label asp-for="FristName" class="control-label"></label>
+            <label asp-for="LastName" class="control-label"></label>
+            <div>
+                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit" value="EditProfile">Edit</button>
+            </div>
+        </section>
+    </div>
+</div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Frontend.Clients;
 using Frontend.Config;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +44,7 @@ namespace Frontend
 				options.Cookie.IsEssential = true;
 			});
 
-
+			services.AddHttpClient<BackendClient>();
 			services.AddScoped<IConstants>(constants => new Constants(Configuration));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

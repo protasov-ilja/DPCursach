@@ -1,60 +1,67 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Frontend.Clients;
 using Frontend.Config;
 using Frontend.Models;
 using Frontend.Models.Response;
 using Frontend.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Frontend.Controllers
 {
-    public class LoginFormController : Controller
-    {
-		private UserDataModel _userModel = new UserDataModel();
+    public class LoginFormController : BaseController
+	{
 		private IConstants _constants;
+		private BackendClient _client;
 
-		public LoginFormController(IConstants constants)
+		public LoginFormController(IConstants constants, BackendClient client)
+			: base (constants)
 		{
+			_client = client;
 			_constants = constants;
 		}
 
 		[HttpGet]
 		public IActionResult Index()
         {
-			var name = HttpContext.Session.GetString("name");
 			var viewModel = new LoginViewModel();
-			viewModel.Login = name;
 
-			return View(viewModel);
+			return LayoutView(viewModel);
         }
 
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginViewModel model) 
 		{
-			HttpClient client = new HttpClient();
-	
-			var userData = new UserDataModel
+			var userData = new UserDto
 			{
 				Login = model.Login,
 				Password = model.Password,
 			};
-		
-			HttpResponseMessage response = await client.PostAsJsonAsync($"{_constants.BackendBaseUrl}/api/account/authorize", userData);
-			string json = await response.Content.ReadAsStringAsync();
 
-			var dataResponse = JsonConvert.DeserializeObject<AuthorizationResponse>(json);
-
-			if (dataResponse.AccessToken != null)
+			var response = await _client.PostAsync<Response<string>, UserDto>(userData, $"/api/account/authorize");
+			if (response.IsSuccessStatusCode)
 			{
-				HttpContext.Session.SetString(_constants.SessionTokenKey, dataResponse.AccessToken);
-				HttpContext.Session.SetString(_constants.SessionUserKey, dataResponse.UserName);
+				var dataResponse = response.Result;
+				if (dataResponse.Data != null)
+				{
+					_client.SetTokenInRequestHeader(dataResponse.Data);
+					HttpContext.Session.SetString(_constants.SessionTokenKey, dataResponse.Data);
+					HttpContext.Session.SetString(_constants.SessionUserKey, dataResponse.UserName);
 
-				return RedirectToRoute("Home/Index", dataResponse);
+					return RedirectToRoute(new { controller = "Home", action = "Index" });
+				}
 			}
-			
+
 			return RedirectToAction("Index");
 		}
-    }
+
+		[HttpGet]
+		public IActionResult Logout(LoginViewModel model)
+		{
+			HttpContext.Session.SetString(_constants.SessionTokenKey, null);
+			HttpContext.Session.SetString(_constants.SessionUserKey, null);
+
+			return RedirectToAction("Index");
+		}
+	}
 }

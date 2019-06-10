@@ -1,21 +1,24 @@
-﻿using Frontend.Config;
+﻿using Frontend.Clients;
+using Frontend.Config;
 using Frontend.Models;
 using Frontend.Models.Response;
 using Frontend.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Frontend.Controllers
 {
-	public class RegistrationFormController : Controller
+	public class RegistrationFormController : BaseController
 	{
 		private IConstants _constants;
+		private BackendClient _client;
 
-		public RegistrationFormController(IConstants constants)
+		public RegistrationFormController(IConstants constants, BackendClient client)
+			: base(constants)
 		{
+			_client = client;
 			_constants = constants;
 		}
 
@@ -23,7 +26,7 @@ namespace Frontend.Controllers
 		{
 			var registrationViewModel = new SignInViewModel();
 
-			return View(registrationViewModel);
+			return LayoutView(registrationViewModel);
 		}
 
 		[HttpPost]
@@ -31,7 +34,7 @@ namespace Frontend.Controllers
 		{
 			HttpClient client = new HttpClient();
 
-			var userData = new UserDataModel
+			var userData = new UserDto
 			{
 				Login = model.Login,
 				Password = model.Password,
@@ -40,14 +43,18 @@ namespace Frontend.Controllers
 				UserKind = model.IsAdmin ? "Admin" : "Buyer"
 			};
 
-			HttpResponseMessage response = await client.PostAsJsonAsync($"{_constants.BackendBaseUrl}/api/account/registration", userData);
-			string json = await response.Content.ReadAsStringAsync();
-
-			var dataResponse = JsonConvert.DeserializeObject<AuthorizationResponse>(json);
-
-			if (dataResponse.AccessToken != null)
+			var response = await _client.PostAsync<Response<string>, UserDto>(userData, $"/api/account/registration");
+			if (response.IsSuccessStatusCode)
 			{
-				return RedirectToRoute("Home/Index", dataResponse);
+				var dataResponse = response.Result;
+				if (dataResponse.Data != null)
+				{
+					_client.SetTokenInRequestHeader(dataResponse.Data);
+					HttpContext.Session.SetString(_constants.SessionTokenKey, dataResponse.Data);
+					HttpContext.Session.SetString(_constants.SessionUserKey, dataResponse.UserName);
+
+					return RedirectToRoute(new { controller = "Home", action = "Index" });
+				}
 			}
 
 			return RedirectToAction("Index");
