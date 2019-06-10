@@ -8,14 +8,23 @@
 
 <div class="row">
     <div class="col-md-8">
-        <section>
-            <label asp-for="Login" class="control-label"></label>
-            <label asp-for="Password" class="control-label"></label>
-            <label asp-for="FristName" class="control-label"></label>
-            <label asp-for="LastName" class="control-label"></label>
+        <div class="container">
+            <div class="row">
+                <label asp-for="Login" class="control-label">@Model.Login</label>
+            </div>
+            <div class="row">
+                <label asp-for="Password" class="control-label">@Model.Password</label>
+            </div>
+            <div class="row">
+                <label asp-for="FristName" class="control-label">@Model.FristName</label>
+            </div>
+            <div class="row">
+                <label asp-for="LastName" class="control-label">@Model.LastName</label>
+            </div>
+
             <div>
                 <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit" value="EditProfile">Edit</button>
             </div>
-        </section>
+        </div>
     </div>
 </div>
