@@ -49,7 +49,6 @@ namespace Frontend.Controllers
 				var dataResponse = response.Result;
 				if (dataResponse.Data != null)
 				{
-					_client.SetTokenInRequestHeader(dataResponse.Data);
 					HttpContext.Session.SetString(_constants.SessionTokenKey, dataResponse.Data);
 					HttpContext.Session.SetString(_constants.SessionUserKey, dataResponse.UserName);
 

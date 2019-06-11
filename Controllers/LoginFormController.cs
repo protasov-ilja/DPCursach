@@ -44,7 +44,6 @@ namespace Frontend.Controllers
 				var dataResponse = response.Result;
 				if (dataResponse.Data != null)
 				{
-					_client.SetTokenInRequestHeader(dataResponse.Data);
 					HttpContext.Session.SetString(_constants.SessionTokenKey, dataResponse.Data);
 					HttpContext.Session.SetString(_constants.SessionUserKey, dataResponse.UserName);
 
@@ -58,10 +57,10 @@ namespace Frontend.Controllers
 		[HttpGet]
 		public IActionResult Logout(LoginViewModel model)
 		{
-			HttpContext.Session.SetString(_constants.SessionTokenKey, null);
-			HttpContext.Session.SetString(_constants.SessionUserKey, null);
+			HttpContext.Session.SetString(_constants.SessionTokenKey, "");
+			HttpContext.Session.SetString(_constants.SessionUserKey, "");
 
-			return RedirectToAction("Index");
+			return RedirectToRoute(new { controller = "Home", action = "Index" });
 		}
 	}
 }

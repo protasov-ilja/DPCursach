@@ -8,12 +8,14 @@ namespace Frontend.Config
 
 		public string SessionTokenKey { get; }
 		public string SessionUserKey { get; }
+		public string SessionIdListKey { get; }
 
 		public Constants(IConfiguration configuration)
 		{
 			BackendBaseUrl = configuration.GetConnectionString("BackendBaseUrl");
 			SessionTokenKey = configuration.GetConnectionString("TokenKey");
 			SessionUserKey = configuration.GetConnectionString("UserKey");
+			SessionIdListKey = configuration.GetConnectionString("IdList");
 		}
 	}
 }

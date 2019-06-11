@@ -28,7 +28,7 @@ namespace Frontend.Controllers
 				return RedirectToRoute(new { controller = "LoginForm", action = "Index" });
 			}
 
-			var response = await _client.GetAsync<Response<UserDto>>($"/api/account/user");
+			var response = await _client.GetAsync<Response<UserDto>>($"/api/account/user", HttpContext.Session.GetString(_constants.SessionTokenKey));
 			if (response.IsSuccessStatusCode)
 			{
 				var dataResponse = response.Result;
@@ -58,7 +58,7 @@ namespace Frontend.Controllers
 				return RedirectToRoute(new { controller = "LoginForm", action = "Index" });
 			}
 
-			var response = await _client.GetAsync<Response<UserDto>>($"/api/account/user");
+			var response = await _client.GetAsync<Response<UserDto>>($"/api/account/user", HttpContext.Session.GetString(_constants.SessionTokenKey));
 			if (response.IsSuccessStatusCode)
 			{
 				var dataResponse = response.Result;
@@ -96,13 +96,12 @@ namespace Frontend.Controllers
 				LastName = model.LastName
 			};
 
-			var response = await _client.PostAsync<Response<string>, UserDto>(user, $"/api/account/update");
+			var response = await _client.PostAsync<Response<string>, UserDto>(user, $"/api/account/update", HttpContext.Session.GetString(_constants.SessionTokenKey));
 			if (response.IsSuccessStatusCode)
 			{
 				var dataResponse = response.Result;
 				if (dataResponse.Data != null)
 				{
-					_client.SetTokenInRequestHeader(dataResponse.Data);
 					HttpContext.Session.SetString(_constants.SessionTokenKey, dataResponse.Data);
 					HttpContext.Session.SetString(_constants.SessionUserKey, dataResponse.UserName);
 

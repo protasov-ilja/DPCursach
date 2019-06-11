@@ -25,14 +25,18 @@ namespace Frontend.Utils.Client
 
 		public void SetTokenInRequestHeader(string token)
 		{
-			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			
 		}
 
-		public async Task<ClientResponse<R>> GetAsync<R>(string url)
+		public async Task<ClientResponse<R>> GetAsync<R>(string url, string token = null)
 		{
 			var result = new ClientResponse<R>();
-
 			HttpResponseMessage httpResponse = null;
+			if (token != null)
+			{
+				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			}
+			
 			try
 			{
 				httpResponse = await _client.GetAsync(url);
@@ -60,14 +64,19 @@ namespace Frontend.Utils.Client
 			return result;
 		}
 
-		public async Task<ClientResponse<R>> PostAsync<R, D>(D data, string path)
+		public async Task<ClientResponse<R>> PostAsync<R, D>(D data, string path, string token = null)
 		{
 			var result = new ClientResponse<R>();
-
 			HttpResponseMessage httpResponse = null;
+			if (token != null)
+			{
+				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+			}
+
 			try
 			{
 				httpResponse = await _client.PostAsJsonAsync(path, data);
+				result.IsSuccessStatusCode = httpResponse.IsSuccessStatusCode;
 				if (httpResponse.IsSuccessStatusCode)
 				{
 					result.Result = await httpResponse.Content.ReadAsAsync<R>();
@@ -90,9 +99,9 @@ namespace Frontend.Utils.Client
 			return result;
 		}
 
-		public async Task<ClientResponse<object>> PostAsync<D>(D data, string path)
+		public async Task<ClientResponse<object>> PostAsync<D>(D data, string path, string token = null)
 		{
-			return await PostAsync<object, D>(data, path);
+			return await PostAsync<object, D>(data, path, token);
 		}
 	}
 }
