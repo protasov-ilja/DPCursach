@@ -59,6 +59,7 @@ namespace Frontend.Controllers
 		{
 			HttpContext.Session.Remove(_constants.SessionTokenKey);
 			HttpContext.Session.Remove(_constants.SessionUserKey);
+			HttpContext.Session.Remove(_constants.SessionIdListKey);
 
 			return RedirectToRoute(new { controller = "Home", action = "Index" });
 		}
