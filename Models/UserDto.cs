@@ -10,7 +10,7 @@ namespace Frontend.Models
 		public string Login { get; set; }
 		[Required]
 		public string Password { get; set; }
-		public string FristName { get; set; }
+		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		[Required]
 		public string UserKind { get; set; }

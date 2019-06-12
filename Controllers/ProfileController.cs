@@ -41,7 +41,7 @@ namespace Frontend.Controllers
 						Login = data.Login,
 						Password = data.Password,
 						ConfirmPassword = data.Password,
-						FristName = data.FristName,
+						FirstName = data.FirstName,
 						LastName = data.LastName,
 						Cash = data.Cash
 					};
@@ -72,7 +72,7 @@ namespace Frontend.Controllers
 						Login = data.Login,
 						Password = data.Password,
 						ConfirmPassword = data.Password,
-						FristName = data.FristName,
+						FirstName = data.FirstName,
 						LastName = data.LastName,
 						Cash = data.Cash
 					};
@@ -95,7 +95,7 @@ namespace Frontend.Controllers
 			{
 				Login = model.Login,
 				Password = model.Password,
-				FristName = model.FristName,
+				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Cash = model.Cash
 			};

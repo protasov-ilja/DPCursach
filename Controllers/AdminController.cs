@@ -86,7 +86,7 @@ namespace Frontend.Controllers
 				Price = 0,
 				Amount = 0,
 				Description = "Description",
-				IdProducer = 0,
+				CompanyName = "Company",
 			};
 
 			var response = await _client.PostAsync<Response<bool>, PhoneDto>(phone, $"/api/purchase/addPhone", HttpContext.Session.GetString(_constants.SessionTokenKey));

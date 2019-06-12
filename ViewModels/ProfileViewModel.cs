@@ -19,7 +19,7 @@ namespace Frontend.ViewModels
 		[Compare("Password")]
 		public string ConfirmPassword { get; set; }
 
-		public string FristName { get; set; }
+		public string FirstName { get; set; }
 
 		public string LastName { get; set; }
 

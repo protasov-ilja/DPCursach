@@ -38,7 +38,7 @@ namespace Frontend.Controllers
 			{
 				Login = model.Login,
 				Password = model.Password,
-				FristName = model.FristName,
+				FirstName = model.FristName,
 				LastName = model.LastName,
 				UserKind = model.IsAdmin ? "Admin" : "Buyer"
 			};
