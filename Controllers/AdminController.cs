@@ -37,14 +37,24 @@ namespace Frontend.Controllers
 			return LayoutView(dataResponse);
 		}
 
-		public IActionResult EditPhone(PhoneDto editedPhone)
+		public async Task<IActionResult> EditPhone(int editedPhoneId)
 		{
 			if (!HttpContext.Session.TryGetValue(_constants.SessionTokenKey, out var token))
 			{
 				return RedirectToRoute(new { controller = "LoginForm", action = "Index" });
 			}
 
-			return LayoutView(editedPhone);
+			var response = await _client.GetAsync<Response<PhoneDto>>($"/api/purchase/phone/{editedPhoneId}");
+			if (response.IsSuccessStatusCode)
+			{
+				var dataResponse = response.Result;
+				if (dataResponse.Data != null)
+				{
+					return LayoutView(dataResponse.Data);
+				}
+			}
+
+			return RedirectToAction("Index");
 		}
 
 		public async Task<IActionResult> Edit(PhoneDto editedPhone)
@@ -58,56 +68,52 @@ namespace Frontend.Controllers
 			if (response.IsSuccessStatusCode)
 			{
 				var dataResponse = response.Result;
-				if (dataResponse.Data)
-				{
-					return RedirectToAction("EditPhone", editedPhone);
-				}
 			}
 
 			return RedirectToAction("EditPhone", editedPhone);
 		}
 
-		//public async Task<IActionResult> AddPhone(PhoneDto editedPhone)
-		//{
-
-
-		//	if (!HttpContext.Session.TryGetValue(_constants.SessionTokenKey, out var token))
-		//	{
-		//		return RedirectToRoute(new { controller = "LoginForm", action = "Index" });
-		//	}
-
-		//	var response = await _client.PostAsync<Response<bool>, PhoneDto>(editedPhone, $"/api/purchase/update", HttpContext.Session.GetString(_constants.SessionTokenKey));
-		//	if (response.IsSuccessStatusCode)
-		//	{
-		//		var dataResponse = response.Result;
-		//		if (dataResponse.Data != null)
-		//		{
-		//			HttpContext.Session.SetString(_constants.SessionTokenKey, dataResponse.Data);
-		//			HttpContext.Session.SetString(_constants.SessionUserKey, dataResponse.UserName);
-
-		//			return RedirectToAction("ShowProfile");
-		//		}
-		//	}
-		//}
-
-		public async Task<IActionResult> Remove(PhoneDto editedPhone)
+		public async Task<IActionResult> AddPhone()
 		{
 			if (!HttpContext.Session.TryGetValue(_constants.SessionTokenKey, out var token))
 			{
 				return RedirectToRoute(new { controller = "LoginForm", action = "Index" });
 			}
 
-			var response = await _client.PostAsync<Response<bool>, int>(editedPhone.Id, $"/api/purchase/deletePhone", HttpContext.Session.GetString(_constants.SessionTokenKey));
+			var phone = new PhoneDto
+			{
+				Name = "Name",
+				Price = 0,
+				Amount = 0,
+				Description = "Description",
+				IdProducer = 0,
+			};
+
+			var response = await _client.PostAsync<Response<bool>, PhoneDto>(phone, $"/api/purchase/addPhone", HttpContext.Session.GetString(_constants.SessionTokenKey));
 			if (response.IsSuccessStatusCode)
 			{
 				var dataResponse = response.Result;
-				if (dataResponse.Data)
-				{
-					return RedirectToAction("Index");
-				}
+
+				return RedirectToAction("Index");
 			}
 
-			return RedirectToAction("EditPhone", editedPhone);
+			return RedirectToAction("Index");
+		}
+
+		public async Task<IActionResult> Remove(int editedPhoneId)
+		{
+			if (!HttpContext.Session.TryGetValue(_constants.SessionTokenKey, out var token))
+			{
+				return RedirectToRoute(new { controller = "LoginForm", action = "Index" });
+			}
+
+			var response = await _client.PostAsync<Response<bool>, int>(editedPhoneId, $"/api/purchase/deletePhone", HttpContext.Session.GetString(_constants.SessionTokenKey));
+			if (response.IsSuccessStatusCode)
+			{
+				var dataResponse = response.Result;
+			}
+
+			return RedirectToAction("Index");
 		}
 	}
 }

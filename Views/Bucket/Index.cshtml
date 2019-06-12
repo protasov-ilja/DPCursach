@@ -1,0 +1,40 @@
+﻿@model BucketViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container">
+    <ul class="row">
+        @foreach (var item in Model.Phones)
+        {
+            <li class="col-lg-4">
+                <div class="card mb-5 mb-lg-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-uppercase text-center">@item.Name</h5>
+                        <h6 class="card-price text-center">@item.Price</h6>
+                        <hr>
+                        <ul class="fa-ul">
+                            <li><p>@item.Description</p></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+
+    <div class="col-lg-4">
+        <div class="card mb-5 mb-lg-0">
+            <div class="card-body">
+                <div class="row">
+                    <h5 class="card-title text-muted text-uppercase text-center col-4">Total Cost</h5>
+                    <div class="col-lg-2"></div>
+                    <h6 class="card-price text-center col-5">@Model.TotalPrice $</h6>
+                </div>
+                <hr> <a class="btn btn-block btn-primary text-uppercase" asp-area="" asp-controller="Bucket" asp-action="Order">Buy</a>
+                <hr> <a class="btn btn-block btn-primary text-uppercase" asp-area="" asp-controller="Bucket" asp-action="ClearBucket">Clear Bucket</a>
+            </div>
+        </div>
+    </div>
+</div>

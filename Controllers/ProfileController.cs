@@ -5,6 +5,7 @@ using Frontend.Models.Response;
 using Frontend.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Frontend.Controllers
@@ -41,7 +42,8 @@ namespace Frontend.Controllers
 						Password = data.Password,
 						ConfirmPassword = data.Password,
 						FristName = data.FristName,
-						LastName = data.LastName
+						LastName = data.LastName,
+						Cash = data.Cash
 					};
 
 					return LayoutView(viewModel);
@@ -71,7 +73,8 @@ namespace Frontend.Controllers
 						Password = data.Password,
 						ConfirmPassword = data.Password,
 						FristName = data.FristName,
-						LastName = data.LastName
+						LastName = data.LastName,
+						Cash = data.Cash
 					};
 
 					return LayoutView(viewModel);
@@ -93,7 +96,8 @@ namespace Frontend.Controllers
 				Login = model.Login,
 				Password = model.Password,
 				FristName = model.FristName,
-				LastName = model.LastName
+				LastName = model.LastName,
+				Cash = model.Cash
 			};
 
 			var response = await _client.PostAsync<Response<string>, UserDto>(user, $"/api/account/update", HttpContext.Session.GetString(_constants.SessionTokenKey));
@@ -110,6 +114,29 @@ namespace Frontend.Controllers
 			}
 
 			return RedirectToAction("EditProfile");
+		}
+
+		public async Task<IActionResult> ShowHistory()
+		{
+			if (!HttpContext.Session.TryGetValue(_constants.SessionTokenKey, out var token))
+			{
+				return RedirectToRoute(new { controller = "LoginForm", action = "Index" });
+			}
+
+			var viewModel = new List<UserHistoryDto>();
+			var response = await _client.GetAsync<Response<List<UserHistoryDto>>>($"/api/account/history", HttpContext.Session.GetString(_constants.SessionTokenKey));
+			if (response.IsSuccessStatusCode)
+			{
+				var dataResponse = response.Result;
+				if (dataResponse.Data != null)
+				{
+					viewModel = dataResponse.Data;
+
+					return LayoutView(viewModel);
+				}
+			}
+
+			return LayoutView(viewModel);
 		}
 	}
 }

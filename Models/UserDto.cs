@@ -14,5 +14,6 @@ namespace Frontend.Models
 		public string LastName { get; set; }
 		[Required]
 		public string UserKind { get; set; }
+		public decimal Cash { get; set; }
 	}
 }

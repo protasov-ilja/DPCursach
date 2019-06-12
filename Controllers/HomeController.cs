@@ -46,9 +46,10 @@ namespace Frontend.Controllers
 			return LayoutView(dataResponse);
 		}
 
-		public IActionResult AddPhoneInBucket(PhoneDto phone)
+		[HttpGet]
+		public IActionResult AddPhoneInBucket(int phoneId)
 		{
-			var id = phone.Id;
+			var id = phoneId;
 			var idList = new List<int>();
 			if (HttpContext.Session.TryGetValue(_constants.SessionIdListKey, out var data))
 			{
@@ -58,7 +59,7 @@ namespace Frontend.Controllers
 
 			idList.Add(id);
 			var str = JsonConvert.SerializeObject(idList);
-			HttpContext.Session.SetString(_constants.SessionTokenKey, str);
+			HttpContext.Session.SetString(_constants.SessionIdListKey, str);
 
 			return RedirectToAction("Index");
 		}

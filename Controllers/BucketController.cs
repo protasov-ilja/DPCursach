@@ -60,6 +60,16 @@ namespace Frontend.Controllers
 				var	idList = JsonConvert.DeserializeObject<List<int>>(json);
 
 				var response = await _client.PostAsync<Response<bool>, List<int>>(idList, $"/api/purchase/payOrder", HttpContext.Session.GetString(_constants.SessionTokenKey));
+				if (response.IsSuccessStatusCode)
+				{
+					var dataResponse = response.Result;
+					if (dataResponse.Data)
+					{
+						idList = new List<int>();
+						var str = JsonConvert.SerializeObject(idList);
+						HttpContext.Session.SetString(_constants.SessionIdListKey, str);
+					}	
+				}
 			}
 
 			return RedirectToAction("Index");
@@ -69,7 +79,7 @@ namespace Frontend.Controllers
 		{
 			var idList = new List<int>();
 			var str = JsonConvert.SerializeObject(idList);
-			HttpContext.Session.SetString(_constants.SessionTokenKey, str);
+			HttpContext.Session.SetString(_constants.SessionIdListKey, str);
 
 			return RedirectToAction("Index");
 		}

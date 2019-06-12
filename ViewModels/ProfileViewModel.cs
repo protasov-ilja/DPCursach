@@ -22,5 +22,7 @@ namespace Frontend.ViewModels
 		public string FristName { get; set; }
 
 		public string LastName { get; set; }
+
+		public decimal Cash { get; set; }
 	}
 }

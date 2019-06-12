@@ -57,8 +57,8 @@ namespace Frontend.Controllers
 		[HttpGet]
 		public IActionResult Logout(LoginViewModel model)
 		{
-			HttpContext.Session.SetString(_constants.SessionTokenKey, "");
-			HttpContext.Session.SetString(_constants.SessionUserKey, "");
+			HttpContext.Session.Remove(_constants.SessionTokenKey);
+			HttpContext.Session.Remove(_constants.SessionUserKey);
 
 			return RedirectToRoute(new { controller = "Home", action = "Index" });
 		}

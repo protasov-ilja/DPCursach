@@ -1,0 +1,27 @@
+﻿@model List<UserHistoryDto>
+
+@{
+    ViewData["Title"] = "ShowHistory";
+}
+
+<h1>History</h1>
+
+<div class="container">
+    <ul class="row">
+        @foreach (var item in Model)
+        {
+            <li class="col-lg-4">
+                <div class="card mb-5 mb-lg-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-uppercase text-center">@item.Date</h5>
+                        <h6 class="card-price text-center">@item.Price</h6>
+                        <hr>
+                        <ul class="fa-ul">
+                            <li><p>@item.Description</p></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

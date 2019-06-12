@@ -22,8 +22,16 @@
                 <label asp-for="LastName" class="control-label">@Model.LastName</label>
             </div>
 
+            <div class="row">
+                <label class="control-label text-capitalize">Cash</label>
+                <label asp-for="Cash" class="control-label text-capitalize">@Model.Cash</label>
+            </div>
+
             <div>
-                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit" value="EditProfile" onclick="window.location='@Url.Action("EditProfile", "Profile")'" >Edit</button>
+                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit" value="EditProfile" onclick="window.location='@Url.Action("EditProfile", "Profile")'">Edit</button>
+            </div>
+            <div>
+                <button class="btn btn-lg btn-secondary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit" value="EditProfile" onclick="window.location='@Url.Action("ShowHistory", "Profile")'">History</button>
             </div>
         </div>
     </div>

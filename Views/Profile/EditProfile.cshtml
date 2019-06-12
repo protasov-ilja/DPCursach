@@ -54,6 +54,13 @@
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
 
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Cash" class="control-label"></label>
+                    <input asp-for="Cash" class="form-control" placeholder="last name" />
+                    <span asp-validation-for="Cash" class="text-danger"></span>
+                </div>
+
                 <div class="form-group">
                     <input type="submit" value="EditProfile" class="btn btn-primary" />
                 </div>
