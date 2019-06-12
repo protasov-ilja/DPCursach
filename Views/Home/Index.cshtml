@@ -14,7 +14,11 @@
 
     <!-- Project One -->
     @foreach (var item in Model)
-    {   
+    {
+        if (item.Amount < 1)
+        {
+            continue;
+        }
             <div class="row">
                 <div class="card mb-8 mb-lg-0">
                     <div class="card-body">
@@ -34,13 +38,25 @@
                                 </li>
 
                                 <li>
-                                    <h2>@item.Price</h2>
+                                    <h2 class="col-4">@item.Price $</h2>
+                                </li>
+
+                                <li>
+                                    <div class="row">
+                                        <h5 class="card-title text-muted text-uppercase text-center col-4">Amount</h5>
+                                        <div class="col-1"></div>
+                                        <h5 class="col-4">@item.Amount</h5>
+                                    </div>
                                 </li>
                                 <li>
                                     <p>@item.Description</p>
                                 </li>
                                 <li>
-                                    <h4>@item.IdProducer</h4>
+                                    <div class="row">
+                                        <h5 class="card-title text-muted text-uppercase text-center col-4">Producer</h5>
+                                        <div class="col-1"></div>
+                                        <h5 class="col-4">@item.IdProducer</h5>
+                                    </div>
                                 </li>
                             </ul>
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" onclick="location.href='@Url.Action("AddPhoneInBucket", "Home", new { phoneId = item.Id })'">
