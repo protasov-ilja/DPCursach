@@ -23,11 +23,6 @@ namespace Frontend.Utils.Client
 		{
 		}
 
-		public void SetTokenInRequestHeader(string token)
-		{
-			
-		}
-
 		public async Task<ClientResponse<R>> GetAsync<R>(string url, string token = null)
 		{
 			var result = new ClientResponse<R>();
